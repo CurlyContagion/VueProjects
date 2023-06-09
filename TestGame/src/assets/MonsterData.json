@@ -1,0 +1,16 @@
+[
+    {
+        "id":"ForestGoblinFighter",
+        "img": "/img/entities/ForestGoblinThief.png",
+        "imgAlt": "Forestling Goblin",
+        "maxHealth": 100,
+        "physicalDmg":10
+    },
+    {
+        "id":"ForestWolfhound",
+        "img": "/img/entities/ForestGoblinThief.png",
+        "imgAlt": "Forestling Goblin",
+        "maxHealth": 100,
+        "physicalDmg":10
+    }
+]
