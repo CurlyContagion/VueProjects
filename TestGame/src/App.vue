@@ -1,11 +1,8 @@
 <script lang="ts">
 import MonsterData from "./assets/MonsterData.json";
+import type InfoBoxVue from "./components/PlayerPanel.vue";
 
-enum Environment {
-  Forest,
-}
-
-enum EntityType {
+export enum EntityType {
   ForestGoblinFighter,
   ForestWolfhound,
   ForestGreatStag,
@@ -35,86 +32,100 @@ export class Enemy {
     this.currentHealth = this.maxHealth;
   }
 }
+
+enum EquipmentSlot {
+  Head,
+  Chest,
+  Legs,
+  Boots
+}
+
+enum ItemRank {
+  Basic,
+  Improved,
+  Epic
+}
+
+class Equipment {
+  name: String;
+  slot: EquipmentSlot;
+
+  constructor(iLevel: Number, itemRank: ItemRank) {
+    this.name = "Test";
+    this.slot = EquipmentSlot.Head;
+  }
+}
+
 </script>
 
 <script setup lang="ts">
 import Header from "./components/Header.vue";
 import EntityTile from "./components/EntityTile.vue";
-import { ref, onMounted } from "vue";
+import PlayerPanel from "./components/PlayerPanel.vue";
+import EnvironmentPanel from "./components/EnvironmentPanel.vue";
+import WorldMap from "./components/WorldMap.vue";
+import { ref, reactive, onMounted, defineComponent } from "vue";
+
+const player = reactive({
+  maxHealth: 100,
+  currentHealth: 100,
+})
 
 const count = ref(1);
 const headerButtonsDisabled = ref([false, false, true]);
 const currentEnemies = ref([Enemy, Enemy, Enemy, Enemy]);
 const tiles = ref([] as (typeof EntityTile)[]);
 
-const TileOne = ref(null);
-const TileTwo = ref(null);
-const TileThree = ref(null);
-const TileFour = ref(null);
+const dynamicComp = reactive({
+  is: PlayerPanel as any,
+  props: {}
+})
 
-const increment = function () {
-  tiles.value.forEach((tile) => {
-    tile.enemy = new Enemy(EntityType.ForestGoblinFighter);
-    tile.activateTile();
-  });
-};
-
-const activate = function () {
-  tiles.value.forEach((tile) => {
-    tile.activateTile();
-  });
-};
-
-const deactivate = function () {
-  tiles.value.forEach((tile) => {
-    tile.deactivateTile();
-  });
-};
+const change = function() {
+  console.log(dynamicComp.is)
+  if (dynamicComp.is.__name == "PlayerPanel") {
+    dynamicComp.props = {
+      styleTop: "0px",
+      styleLeft: "0px"
+    }
+    dynamicComp.is = EntityTile
+  }
+  else {
+    dynamicComp.props = {
+      title: "Info Box"
+    }
+    dynamicComp.is = PlayerPanel
+  }
+}
 
 onMounted(() => {
-  console.log(TileOne.value);
-  tiles.value.push(TileOne.value);
-  tiles.value.push(TileTwo.value);
-  tiles.value.push(TileThree.value);
-  tiles.value.push(TileFour.value);
-  tiles.value.forEach((tile) => {
-    tile.deactivateTile();
-  });
-});
+  dynamicComp.props = {
+    title: "Info Box"
+  }
+})
+
 </script>
 
 <template>
   <Header :disabledButtons="headerButtonsDisabled" />
   <h1>Hello {{ count }}</h1>
-  <button @click="increment()">Increment</button>
-  <button @click="activate()">Activate</button>
-  <button @click="deactivate()">Deactivate</button>
-  <EntityTile
-    styleLeft="650px"
-    styleTop="50px"
-    ref="TileOne"
-  />
-  <EntityTile
-    styleLeft="1200px"
-    styleTop="50px"
-    ref="TileTwo"
-  />
-  <EntityTile
-    styleLeft="650px"
-    styleTop="450px"
-    ref="TileThree"
-  />
-  <EntityTile
-    styleLeft="1200px"
-    styleTop="450px"
-    ref="TileFour"
-  />
+  <button @click="change()">Increment</button>
+  <button @click="">Activate</button>
+  <button @click="">Deactivate</button>
+  <PlayerPanel/>
+  <!--<KeepAlive>
+    <component :is="dynamicComp.is" v-bind="dynamicComp.props" />
+  </KeepAlive>-->
+  <WorldMap/>
+  <EnvironmentPanel/>
 </template>
 
 <style>
 body {
   color: white;
   background-color: black;
-  background-image: url("/img/environments/ForestBackground.png");
+  background-image: url("/img/environments/DesertBackground.png");
+  background-size: 100vw 100vh;
+  overflow: hidden;
 }
 </style>
