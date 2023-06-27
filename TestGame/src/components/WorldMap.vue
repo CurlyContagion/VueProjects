@@ -1,16 +1,31 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import WorldTile from "./WorldTile.vue";
+import { TileType } from "./WorldTile.vue";
 
 const tileWidth = "3vw";
 const numOfColumns = 9;
 const numOfRows = 9;
-const numOfTiles = 81;
+const numOfTiles = numOfRows * numOfColumns; //81
 
+const mapTiles = ref([] as typeof WorldTile[]);
+
+const setMapEvents = () => {
+  mapTiles.value.forEach((tile) => {
+    if (Math.random() <= 0.45) {
+      tile.setEvent();
+    }
+  })
+};
+
+onMounted(() => {
+  setMapEvents();
+})
 </script>
 
 <template>
   <div class="map-container" >
-      <div class="map-tile" v-for="col in numOfTiles" :key="col">{{ col }}</div>
+    <WorldTile v-for="col in numOfTiles" :tileWidth="tileWidth" :key="col" ref="mapTiles"></WorldTile>
   </div>
 </template>
 
@@ -31,17 +46,4 @@ const numOfTiles = 81;
   grid-template-columns: repeat(v-bind(numOfColumns), v-bind(tileWidth));
   gap: 2.7vh 1.35vw 
 }
-.map-tile {
-  left: 0.85vw;
-  top: 1vh;
-  width: v-bind(tileWidth);
-  height: 5vh;
-  border-style: dashed;
-  border-width: 3px;
-  border-color: black;
-  position:relative;
-  text-align: center;
-  color: red;
-}
-
 </style>
