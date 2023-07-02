@@ -11,12 +11,25 @@ export enum TileType {
   Exit
 }
 
+const STASH_CHANCE = 0.20;
+const REST_CHANCE = 0.1;
+const QUEST_CHANCE = 0.15;
+const MONSTER_CHANCE = 0.30;
+const BOSS_CHANCE = 0.05;
+const SHOP_CHANCE = 0.15;
+const EXIT_CHANCE = 0.05;
+
+if (STASH_CHANCE + REST_CHANCE + QUEST_CHANCE + MONSTER_CHANCE + BOSS_CHANCE + SHOP_CHANCE + EXIT_CHANCE != 1) {
+  console.error("Encounter chances are not equal to 1!")
+  throw new Error;
+}
 </script>
 
 <script setup lang="ts">
-  import { ref, computed} from "vue"
+  import { ref, computed, onMounted} from "vue"
 
-
+  const hasPlayer = ref(false);
+  const isWall = ref(false);
   const hasEvent = ref(false);
   const tileType = ref(TileType.Empty)
 
@@ -24,34 +37,57 @@ export enum TileType {
     hasEvent.value = true;
     const num = Math.random()
     switch (true) {
-        case (num < 0.3):
+        case (num < STASH_CHANCE):
           tileType.value = TileType.Stash
           break;
-        case (num < 0.4):
+        case (num < STASH_CHANCE + REST_CHANCE):
           tileType.value = TileType.Rest
           break;
-        case (num < 0.6):
+        case (num < STASH_CHANCE + REST_CHANCE + MONSTER_CHANCE):
           tileType.value = TileType.MonsterEncounter
           break;
-        case (num < 0.7):
+        case (num < STASH_CHANCE + REST_CHANCE + MONSTER_CHANCE + QUEST_CHANCE):
           tileType.value = TileType.QuestEncounter
           break;
-        case (num < 0.8):
+        case (num < STASH_CHANCE + REST_CHANCE  + MONSTER_CHANCE + QUEST_CHANCE + SHOP_CHANCE):
           tileType.value = TileType.Shop
           break;
-        case (num < 0.95):
+        case (num < STASH_CHANCE + REST_CHANCE  + MONSTER_CHANCE + QUEST_CHANCE + SHOP_CHANCE + EXIT_CHANCE):
           tileType.value = TileType.Exit
           break;
-        case (num < 1):
+        case (num < STASH_CHANCE + REST_CHANCE  + MONSTER_CHANCE + QUEST_CHANCE + SHOP_CHANCE + EXIT_CHANCE + BOSS_CHANCE):
           tileType.value = TileType.BossEncounter
           break;
       default: 
     }
   }
 
-  const tileStyling = computed(() => ({
-  "background-color": hasEvent.value ? "goldenrod" : "lightgray"
-}))
+  const setPlayer = () => {
+    hasPlayer.value = true;
+  }
+
+  const removePlayer = () => {
+    hasPlayer.value = false;
+  }
+
+  const tileStyling = computed(() => {
+    let backgroundColor = ""
+    if (hasPlayer.value) {
+      backgroundColor = "blue";
+    }
+    else if (hasEvent.value) {
+      backgroundColor = "goldenrod";
+    }
+    else if (isWall.value) {
+      backgroundColor = "black"
+    }
+    else {
+      backgroundColor = "lightgray"
+    }
+    return {
+      "background-color": backgroundColor
+    } 
+})
 
   const imgStyling = computed(() => ({
     display: hasEvent.value ? "block" : "none"
@@ -80,14 +116,21 @@ export enum TileType {
     }
   })
 
+  const setWall = () => {
+    isWall.value = true;
+  }
+
   const props = defineProps<{
-    tileWidth: String
+    tileWidth: string
   }>()
 
   defineExpose({
     hasEvent,
     tileType,
-    setEvent
+    hasPlayer,
+    isWall,
+    setEvent,
+    setWall
   })
 </script>
 

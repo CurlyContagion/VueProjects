@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { Enemy, EntityType } from "../App.vue";
+  import { Enemy, EntityType } from "../GameData.vue";
 
   const isActiveTile = ref(true);
   const enemy = new Enemy(EntityType.ForestGoblinFighter);

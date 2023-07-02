@@ -4,10 +4,12 @@ import WorldTile from "./WorldTile.vue";
 import { TileType } from "./WorldTile.vue";
 
 const tileWidth = "3vw";
-const numOfColumns = 9;
-const numOfRows = 9;
-const numOfTiles = numOfRows * numOfColumns; //81
 
+const props = defineProps<{
+  numOfColumns: number
+  numOfRows: number
+  numOfTiles: number
+}>()
 const mapTiles = ref([] as typeof WorldTile[]);
 
 const setMapEvents = () => {
@@ -18,14 +20,29 @@ const setMapEvents = () => {
   })
 };
 
+const setMapWalls = () => {
+  mapTiles.value.forEach((tile) => {
+    if (!tile.hasEvent && Math.random() <= 0.2 ) {
+      tile.setWall();
+    }
+  })
+};
+
 onMounted(() => {
   setMapEvents();
+  setMapWalls();
+})
+
+defineExpose({
+  mapTiles
 })
 </script>
 
+
+
 <template>
   <div class="map-container" >
-    <WorldTile v-for="col in numOfTiles" :tileWidth="tileWidth" :key="col" ref="mapTiles"></WorldTile>
+    <WorldTile v-for="(item, index) in numOfTiles" :tileWidth="tileWidth" :key="item" ref="mapTiles"></WorldTile>
   </div>
 </template>
 
@@ -45,5 +62,8 @@ onMounted(() => {
   display: grid;
   grid-template-columns: repeat(v-bind(numOfColumns), v-bind(tileWidth));
   gap: 2.7vh 1.35vw 
+}
+.map-container:focus {
+  outline: 0px;
 }
 </style>

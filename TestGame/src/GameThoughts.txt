@@ -1,0 +1,27 @@
+Player Stats:
+    Not Implemented - General Stats:
+        The player doesn't have intrisic stats. All stats come from equipment and weapons.
+        The equipped weapon will provide x flat base damage, and other equipment can provide % modifiers
+    Not Implemented - Energy: 
+        Players have access to multiple abilities from their weapon and armor each turn. Using abilities will cost a variable amount of energy.
+        Energy regains per turn in battle and refills upon leaving battle.
+        Going low on energy incurs a damage penalty.
+        You can optionally "basic attack" for no energy, but this deals 50% base damage
+    Not Implemented - Damage:
+        
+
+
+Equipment:
+    Not Implemented - Spells:
+        Inspired by Albion, each piece of equipment will have at least 1 spell (possibly multiple, maybe influenced by item rank).
+        Spells can be offensive, defensive, buff oriented, or other.
+
+
+Monsters:
+    Not Implemented - Tiers:
+        Monsters have intrinsic tiers related to the zone you are currently in. The vast majority of monsters should be of the same tier of the zone.
+        Monsters stats are directly influenced by tier (possibly linear scaling? or exponential?).
+    Not Implemented - Stats:
+        Monsters, unlike players, have intrinsic stats and abilities.
+        Abilities are chosen from a pool for a given monster. Higher tier monsters will have more variety in their abilities.
+
