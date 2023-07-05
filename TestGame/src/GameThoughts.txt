@@ -6,11 +6,19 @@ Player Stats:
         Players have access to multiple abilities from their weapon and armor each turn. Using abilities will cost a variable amount of energy.
         Energy regains per turn in battle and refills upon leaving battle.
         Going low on energy incurs a damage penalty.
-        You can optionally "basic attack" for no energy, but this deals 50% base damage
+        You can optionally "basic attack" for no energy, but this deals 50% base damage.
     Not Implemented - Damage:
+
+Map:
+    Not Implemented - Tiles:
+        Walls - Block movement. Lowers chaos and rewards items or resources.
+        Rest - Recover health or other resources? Raises chaos moderately.
+        Trade - Buy and sell items, or barter items away to increase relation with a faction. Raises chaos slightly for checking, but an additional amount for each item bought (and sold?).
+        Chest - Gain an item or some resource. Moderately raises chaos. Possily a mimic under certain circumstances (high chaos?).
+        Boss - Fight a region boss. Lowers chaos and grants rare items and resources.
+        Event - Wildcare tile that can be item granted, monster fight, special trade, special decision, or quest?
+        Deathwhisperer - Fight unique Deathwhisperer faction enemies, only spawn at high chaos
         
-
-
 Equipment:
     Not Implemented - Spells:
         Inspired by Albion, each piece of equipment will have at least 1 spell (possibly multiple, maybe influenced by item rank).
@@ -24,4 +32,20 @@ Monsters:
     Not Implemented - Stats:
         Monsters, unlike players, have intrinsic stats and abilities.
         Abilities are chosen from a pool for a given monster. Higher tier monsters will have more variety in their abilities.
+    Not Implemented - Realms/Biomes:
+        Each map the player goes into is a specific biome. Monsters are assigned specific biomes and normal battle encounters pull from the biome's pool of monsters.
+    Not Implemented - Factions:
+        Monsters have assigned factions. Killing monsters of a given faction decreases their opinion of you, while certain events and/or bartering can increase their opinion.
+        Battling a monster that has a positive opinion of you reduces its base damage, while negative opinion increases base damage and reduces chance to be cc'd. 
+        Opinion trends toward neutral over time.
+
+Mechanics:
+    Not Implemented - Chaos:
+        Chaos is a number that gradually ticks up every move, and significantly increases when interacting with safe events, such as chests, rests, or trade outposts.
+        Chaos can be reduced by defeating monsters or certain event decisions. Events themselves only slightly raise chaos because they aren't fully safe.
+        Chaos progresses to three stages: Low Chaos, Moderate Chaos, High Chaos:
+            Low Chaos incurs no penalties.
+            Moderate Chaos buffs the base damage and base health of all monsters that you encounter, scaling with how much chaos there is.
+            High Chaos further buffs enemies, grants region bosses massive unique buffs, gives a much greater chance of event tiles having monsters,
+            gives a much greater chance of encountering veterans/elites, and enables Deathwhisperer tiles to spawn.
 

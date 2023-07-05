@@ -16,7 +16,7 @@ import { ref } from "vue";
   position: absolute;
   width: 30vw;
   height: 91.15vh;
-  background-color: rgb(10, 59, 43);
+  background-image: linear-gradient(180deg, darkblue, rgb(0, 0, 0));;
   font-family: cursive;
   color: rgb(201, 70, 201);
   z-index: 0;

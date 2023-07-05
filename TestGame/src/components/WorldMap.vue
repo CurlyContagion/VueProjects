@@ -10,7 +10,7 @@ const props = defineProps<{
   numOfRows: number
   numOfTiles: number
 }>()
-const mapTiles = ref([] as typeof WorldTile[]);
+const mapTiles = ref([] as InstanceType<typeof WorldTile>[]) 
 
 const setMapEvents = () => {
   mapTiles.value.forEach((tile) => {
@@ -42,7 +42,7 @@ defineExpose({
 
 <template>
   <div class="map-container" >
-    <WorldTile v-for="(item, index) in numOfTiles" :tileWidth="tileWidth" :key="item" ref="mapTiles"></WorldTile>
+    <WorldTile v-for="(item, index) in numOfTiles" :tileWidth="tileWidth" :key="item" ref="mapTiles" :tileNumber="index"></WorldTile>
   </div>
 </template>
 

@@ -26,12 +26,25 @@ if (STASH_CHANCE + REST_CHANCE + QUEST_CHANCE + MONSTER_CHANCE + BOSS_CHANCE + S
 </script>
 
 <script setup lang="ts">
-  import { ref, computed, onMounted} from "vue"
+  import { ref, computed, onMounted, inject} from "vue";
+  import type { Ref } from "vue";
 
-  const hasPlayer = ref(false);
+  const props = defineProps<{
+    tileNumber: Number
+    tileWidth: String
+  }>()
+
+  const hasPlayer = computed(() => {
+    return playerPosition?.value === props.tileNumber ? true : false;
+  })
+
   const isWall = ref(false);
   const hasEvent = ref(false);
   const tileType = ref(TileType.Empty)
+
+  const playerPosition: Ref<number> | undefined = inject("playerPosition");
+
+
 
   const setEvent = () => {
     hasEvent.value = true;
@@ -62,18 +75,10 @@ if (STASH_CHANCE + REST_CHANCE + QUEST_CHANCE + MONSTER_CHANCE + BOSS_CHANCE + S
     }
   }
 
-  const setPlayer = () => {
-    hasPlayer.value = true;
-  }
-
-  const removePlayer = () => {
-    hasPlayer.value = false;
-  }
-
   const tileStyling = computed(() => {
     let backgroundColor = ""
     if (hasPlayer.value) {
-      backgroundColor = "blue";
+      backgroundColor = "lightcoral";
     }
     else if (hasEvent.value) {
       backgroundColor = "goldenrod";
@@ -120,10 +125,6 @@ if (STASH_CHANCE + REST_CHANCE + QUEST_CHANCE + MONSTER_CHANCE + BOSS_CHANCE + S
     isWall.value = true;
   }
 
-  const props = defineProps<{
-    tileWidth: string
-  }>()
-
   defineExpose({
     hasEvent,
     tileType,
@@ -132,6 +133,7 @@ if (STASH_CHANCE + REST_CHANCE + QUEST_CHANCE + MONSTER_CHANCE + BOSS_CHANCE + S
     setEvent,
     setWall
   })
+
 </script>
 
 <template>
